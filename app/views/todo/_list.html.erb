@@ -1,8 +1,10 @@
 <section class="todo_section">
-<p class="title"><%= title%></p>
+
 
 <div class="container">
 <table class="table table-hover">
+<p class="title"><%= title%></p>
+<p><%= todos.count%>
 <thead>
   <tr>
     <th>Task</th>
@@ -12,10 +14,8 @@
   </tr>
   </thead>
   <tbody>
-<% todos.each do |todo|%>
+<% todos.all.each do |todo|%>
 <tr>
-<%if title == "Overdue" %>
-  <% if todo.due_date < ?,Date.today%>
    <td><%=todo.task%></td>
    <td><%= todo.due_date%></td>
    
@@ -24,46 +24,10 @@
    <% else %>
   <td>Completed</td>
     <% end %>
-<td>
-<%= form_with(url: "/delete/#{todo.id}", method: "delete") do %>
-      <%= hidden_field_tag :authenticity_token, form_authenticity_token -%>
-      <%= submit_tag "Delete", class: "delete" %>
-<% end %>
+<td><button onclick="Destroy(<%=todo.id%>)" style="background-color : blue , color : white">Delete</button></td>
 
 </tr>
 <% end %>
-<%if title == "Due Today" %>
-  <% if todo.due_date= ?" ,Date.today%>
-   <td><%=todo.task%></td>
-   <td><%= todo.due_date%></td>
-   <% if todo.completed == false || todo.completed == 'null' %>
-  <td><a href="/update/<%= todo.id%>"><button style="background-color : blue , color : white">Mark as complete</button></a></td>
-   <% else %>
-  <td>Completed</td>
-    <% end %>
-<td><button class="delete" id="delete" type="submit" onclick = "Destroy(<%= todo.id%>)">Delete</button></td>
-</tr>
-<% end %>
-<% end %>
-
-<%if title == "Due Later" %>
-  <% if todo.due_date > ?,Date.today%>
-   <td><%=todo.task%></td>
-   <td><%= todo.due_date%></td>
-   <% if todo.completed == false || todo.completed == 'null' %>
-  <td><a href="/update/<%= todo.id%>"><button style="background-color : blue , color : white">Mark as complete</button></a></td>
-   <% else %>
-  <td>Completed</td>
-    <% end %>
-<td><button class="delete" id="delete" type="submit" onclick = "Destroy(<%= todo.id%>)">Delete</button></td>
-</tr>
-<% end %>
-<% end %>
-<% end %>
-
-</tbody>
-</table>
-</div>
 </section>
 <script>
  function Destroy(id){
